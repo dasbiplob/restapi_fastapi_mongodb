@@ -1,15 +1,23 @@
-version: '3.11.4'
+version: '3.9'
 
 services:
   mqtt-broker:
     image: eclipse-mosquitto
     ports:
-      - 1883:1883
+      - 1884:1883
 
   app:
     build:
       context: .
     ports:
       - 8080:8080
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
     depends_on:
       - mqtt-broker
+      - mongo-db
+
+  mongo-db:
+    image: mongo
+    ports:
+      - 27017:27017
