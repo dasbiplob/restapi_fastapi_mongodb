@@ -1,0 +1,15 @@
+version: '3.11.4'
+
+services:
+  mqtt-broker:
+    image: eclipse-mosquitto
+    ports:
+      - 1883:1883
+
+  app:
+    build:
+      context: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - mqtt-broker
