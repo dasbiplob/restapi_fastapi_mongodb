@@ -5,7 +5,7 @@ import paho.mqtt.client as mqtt
 from pymongo import MongoClient
 
 # MQTT broker information
-mqtt_broker = 'mqtt.eclipseprojects.io'
+mqtt_broker = 'localhost'
 mqtt_topic = 'charger/1/connector/1/session/1'
 
 # MongoDB connection information
