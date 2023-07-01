@@ -10,16 +10,24 @@ mongodb_collection = 'mqttpy'
 # Create a FastAPI instance
 app = FastAPI()
 
-# MongoDB connection client
-client = MongoClient(mongodb_host, mongodb_port)
-db = client[mongodb_database]
-collection = db[mongodb_collection]
+try:
+    # MongoDB connection client
+    client = MongoClient(mongodb_host, mongodb_port)
+    db = client[mongodb_database]
+    collection = db[mongodb_collection]
+except Exception as e:
+    print(f"Error connecting to MongoDB: {str(e)}")
+    # Handle the error appropriately (e.g., log, raise, or return an error response)
 
 # Endpoint to get all messages
 @app.get("/messages")
 def get_all_messages():
-    messages = list(collection.find())
-    # Convert MongoDB ObjectId to string representation
-    for message in messages:
-        message["_id"] = str(message["_id"])
-    return {"messages": messages}
+    try:
+        messages = list(collection.find())
+        # Convert MongoDB ObjectId to string representation
+        for message in messages:
+            message["_id"] = str(message["_id"])
+        return {"messages": messages}
+    except Exception as e:
+        print(f"Error retrieving messages: {str(e)}")
+        # Handle the error appropriately (e.g., log, raise, or return an error response)
