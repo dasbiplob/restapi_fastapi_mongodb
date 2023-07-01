@@ -1,10 +1,22 @@
 version: '3.9'
 
+networks:
+  my_network:
+
 services:
   mqtt-broker:
+    container_name: mqtt
     image: eclipse-mosquitto
+    restart: always
+    volumes:
+      - ./config:/Users/biplobdas/restapi_fastapi_mongodb/config
+      - ./data:/Users/biplobdas/restapi_fastapi_mongodb/data
+      - ./log:/Users/biplobdas/restapi_fastapi_mongodb/log
     ports:
-      - 1884:1883
+      - 1883:1883
+      - 9001:9001
+    networks:
+      - my_network
 
   app:
     build:
@@ -16,8 +28,12 @@ services:
     depends_on:
       - mqtt-broker
       - mongo-db
+    networks:
+      - my_network
 
   mongo-db:
     image: mongo
     ports:
       - 27017:27017
+    networks:
+      - my_network

@@ -4,7 +4,7 @@ import datetime
 import paho.mqtt.client as mqtt
 from pymongo import MongoClient
 
-# MQTT broker information@
+# MQTT broker information
 mqtt_broker = 'mqtt.eclipseprojects.io'
 mqtt_topic = 'charger/1/connector/1/session/1'
 
@@ -33,7 +33,7 @@ def save_to_database(payload):
         collection = db[mongodb_collection]
         data = json.loads(payload)
         collection.insert_one(data)
-        print('Data Saved!')
+        print('Data saved to MongoDB!')
         client.close()
     except Exception as e:
         print(f"An error occurred while saving to the database: {e}")
