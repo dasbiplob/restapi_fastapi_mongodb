@@ -15,13 +15,21 @@ pip3 install paho-mqtt fastapi pymongo
 
 To run the application, follow these steps:
 
+##
+virtualenv venv
+
+
+source venv/bin/activate
+
+
+
 1. Start the MQTT to MongoDB integration script by running `mqtt_mongodb.py`:
     python mqtt_mongodb.py
 
 This script establishes a connection to the MQTT broker, subscribes to the specified topic, and saves received MQTT messages to the MongoDB collection.
 
 2. In a separate terminal, start the FastAPI server by running `api.py`:
-    uvicorn index:app --reload
+    uvicorn api:app --reload --port 8080
 
 The FastAPI server exposes an endpoint to retrieve all the messages stored in the MongoDB collection.
 
