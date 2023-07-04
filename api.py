@@ -1,8 +1,9 @@
+from venv import logger
 from fastapi import FastAPI
 from pymongo import MongoClient
 
 # MongoDB connection information
-mongodb_host = 'localhost'
+mongodb_host = '127.0.0.1'
 mongodb_port = 27017
 mongodb_database = 'mqttpy'
 mongodb_collection = 'mqttpy'
@@ -16,7 +17,7 @@ try:
     db = client[mongodb_database]
     collection = db[mongodb_collection]
 except Exception as e:
-    print(f"Error connecting to MongoDB: {str(e)}")
+    logger.error(f"Error connecting to MongoDB: {str(e)}")
     # Handle the error appropriately (e.g., log, raise, or return an error response)
 
 # Endpoint to get all messages
@@ -29,5 +30,5 @@ def get_all_messages():
             message["_id"] = str(message["_id"])
         return {"messages": messages}
     except Exception as e:
-        print(f"Error retrieving messages: {str(e)}")
+        logger.error(f"Error retrieving messages: {str(e)}")
         # Handle the error appropriately (e.g., log, raise, or return an error response)

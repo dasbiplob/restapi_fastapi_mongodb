@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3'
 
 networks:
   my_network:
@@ -9,18 +9,16 @@ services:
     image: eclipse-mosquitto
     restart: always
     volumes:
-      - ./config:/Users/biplobdas/restapi_fastapi_mongodb/mosquitto/config/
-      - ./data:/Users/biplobdas/restapi_fastapi_mongodb/mosquitto/data
-      - ./log:/Users/biplobdas/restapi_fastapi_mongodb/mosquitto/log
+      - ./config:/config/
+      - ./data:/data
+      - ./log:/log
     ports:
-      - 1883:1883
-      - 9001:9001
-    networks:
-      - my_network
+      - 1883:1883/tcp
 
   app:
     build:
       context: .
+      dockerfile: Dockerfile
     ports:
       - 8080:8080
     environment:
@@ -32,7 +30,8 @@ services:
       - my_network
 
   mongo-db:
-    image: mongo
+    image: mongo:latest
+    container_name: mongodb
     ports:
       - 27017:27017
     networks:
